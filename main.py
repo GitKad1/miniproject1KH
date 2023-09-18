@@ -5,6 +5,7 @@
 import yfinance as yf
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 #This project will be using the packages NumPy and Matplotlib in order to create 5 graphs that output as PNG files.
 
@@ -30,6 +31,12 @@ def getClosing(ticker):
     for price in hist["Close"]:
         closingList.append(round(price, 2))
     return closingList
+
+#Create Charts folder
+try:
+    Path("Charts").mkdir()
+except FileExistsError:
+    pass
 
 stocks = ["UBER", "NFLX", "TSLA", "AAPL", "MSFT"]
 
