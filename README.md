@@ -12,3 +12,8 @@ Please install the following:
 ```
 pip install -r requirements.txt 
 ```
+
+Running this program
+'''
+python main.py
+'''
