@@ -32,32 +32,59 @@ def getClosing(ticker):
         closingList.append(round(price, 2))
     return closingList
 
+
+def createCharts(stocks):
+    for stock in stocks:
+        #Create numpy array
+        stockList = getClosing(stock)
+        stockArray = np.array(stockList)
+
+        #Plot the graph and set limits for x axis
+        plt.plot(list(range(1, len(stockArray) + 1)), stockArray)
+        plt.xlim(1, 10)
+
+        #Set title and X and Y labels
+        plt.xlabel("Days")
+        plt.ylabel("Closing Prices")
+        plt.title("Closing Price for " + f'{stock}')
+
+        #Save charts as PNG files to Chart directory
+        saveFile = "Charts/" + stock + " .png"
+        plt.savefig(saveFile)
+
+        #Show the charts
+        plt.show()
+
+def getStocks():
+    #Get 5 stocks from the user
+
+    stocks = []
+    print("Please enter 5 stocks.")
+    for i in range(1, 6):
+
+        #Test if the stock ticker is valid
+        while True:
+            print("Enter stock ticker " + str(i))
+            ticker = input().upper()
+            try:
+                stock = yf.Ticker(ticker)
+                stock.info
+                stocks.append(ticker)
+                break
+            except:
+                print("That is not a valid ticker.")
+
+    return stocks
+
+
+#Start of program
 #Create Charts folder
 try:
     Path("Charts").mkdir()
 except FileExistsError:
     pass
 
-stocks = ["UBER", "NFLX", "TSLA", "AAPL", "MSFT"]
+stocks = getStocks()
+createCharts(stocks)
 
-for stock in stocks:
-    #Create numpy array
-    stockList = getClosing(stock)
-    stockArray = np.array(stockList)
-
-    #Plot the graph and set limits for x axis
-    plt.plot(list(range(1, len(stockArray) + 1)), stockArray)
-    plt.xlim(1, 10)
-
-    #Set title and X and Y labels
-    plt.xlabel("Days")
-    plt.ylabel("Closing Prices")
-    plt.title("Closing Price for " + f'{stock}')
-
-    #Save charts as PNG files to Chart directory
-    saveFile = "Charts/" + stock + " .png"
-    plt.savefig(saveFile)
-
-    #Show the charts
-    plt.show()
 
