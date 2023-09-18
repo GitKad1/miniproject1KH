@@ -5,7 +5,6 @@
 import yfinance as yf
 import numpy as np
 import matplotlib.pyplot as plt
-import pprint
 
 #This project will be using the packages NumPy and Matplotlib in order to create 5 graphs that output as PNG files.
 
@@ -32,22 +31,26 @@ def getClosing(ticker):
         closingList.append(round(price, 2))
     return closingList
 
-uber = getClosing("UBER")
-netflix = getClosing("NFLX")
-tesla = getClosing("TSLA")
-apple = getClosing("AAPL")
-msft = getClosing("MSFT")
-
 stocks = ["UBER", "NFLX", "TSLA", "AAPL", "MSFT"]
 
 for stock in stocks:
+    #Create numpy array
     stockList = getClosing(stock)
     stockArray = np.array(stockList)
 
+    #Plot the graph and set limits for x axis
     plt.plot(list(range(1, len(stockArray) + 1)), stockArray)
-
     plt.xlim(1, 10)
+
+    #Set title and X and Y labels
     plt.xlabel("Days")
     plt.ylabel("Closing Prices")
     plt.title("Closing Price for " + f'{stock}')
+
+    #Save charts as PNG files to Chart directory
+    saveFile = "Charts/" + stock + " .png"
+    plt.savefig(saveFile)
+
+    #Show the charts
     plt.show()
+
