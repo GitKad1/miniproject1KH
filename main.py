@@ -3,6 +3,8 @@
 # Mini Project 1
 
 import yfinance as yf
+import numpy as np
+import matplotlib.pyplot as plt
 import pprint
 
 #This project will be using the packages NumPy and Matplotlib in order to create 5 graphs that output as PNG files.
@@ -25,7 +27,7 @@ def getClosing(ticker):
     hist = stock.history(period="10d")
     #create list for ticker closing prices
     closingList = []
-    #add closing price to ticker for the last 10 days
+    #add closing price to ticker for the last 10 trading days
     for price in hist["Close"]:
         closingList.append(round(price, 2))
     return closingList
@@ -36,4 +38,16 @@ tesla = getClosing("TSLA")
 apple = getClosing("AAPL")
 msft = getClosing("MSFT")
 
-print(msft)
+stocks = ["UBER", "NFLX", "TSLA", "AAPL", "MSFT"]
+
+for stock in stocks:
+    stockList = getClosing(stock)
+    stockArray = np.array(stockList)
+
+    plt.plot(list(range(1, len(stockArray) + 1)), stockArray)
+
+    plt.xlim(1, 10)
+    plt.xlabel("Days")
+    plt.ylabel("Closing Prices")
+    plt.title("Closing Price for " + f'{stock}')
+    plt.show()
